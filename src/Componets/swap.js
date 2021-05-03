@@ -8,6 +8,8 @@ function App() {
   const db = firebase.firestore();
   const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
   const [Faculty_id,setFaculty_id]=useState([]);
+  const [email,setEmail]=useState([]);
+  const [D2,setD2]=useState([]);
   function validity(req,inside){
     var i=0;
     for(i=0;i<inside.length;i++){
@@ -19,7 +21,26 @@ function App() {
     db.collection('FacultyDetails').onSnapshot(snapshot =>{
       setFaculty_id(snapshot.docs.map(doc => doc.data().ID))
     })
+    db.collection('Extra').onSnapshot(snapshot =>{
+      setEmail(snapshot.docs.map(doc => doc.data().email))
+    })
+    db.collection('FacultyDetails').onSnapshot(snapshot =>{
+      setD2(snapshot.docs.map(doc => doc.data()))
+    })
   })
+  var ee=email[0];
+    var facid;
+    for (var j=0;j<D2.length;j++){
+        
+        if (ee==D2[j].Email){
+          console.log(D2[j].Email);
+          console.log(D2[j].ID);
+            
+          facid=D2[j].ID;
+            break;
+        }
+    }
+    console.log(facid);
 
   function add_details(e){
     e.preventDefault();
@@ -41,7 +62,7 @@ function App() {
     }
     if(t==1){}
     else{
-      var noti= "Faculty 'faculty ID' has requested to swap allotments with "+request.Faculty_id+" Requested faculty allotment time: "+" data: "+request.date+" class: "+request.class+" Other faculty allotment time: "+" data: "+request.date_s+" class: "+request.class_s;
+      var noti= "Faculty "+facid+" has requested to swap allotments with "+request.Faculty_id+" Requested faculty allotment time: "+" data: "+request.date+" class: "+request.class+" Other faculty allotment time: "+" data: "+request.date_s+" class: "+request.class_s;
       db.collection("AdminDetails").doc("A0P2D17LNR5SqSMMoUVc").update({
           Notifications: arrayUnion(noti),
       }).then(function () {
