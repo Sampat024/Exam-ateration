@@ -27,7 +27,7 @@ const ahome=()=>{
   <div className="image">
         <p ><b> “The life so short, the craft so long to learn.”
                                         ― Hippocrates
-                                        {UserProfile.getName()}</b>
+                                </b>
        
         </p>
         </div>
